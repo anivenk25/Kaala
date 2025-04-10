@@ -2,7 +2,7 @@
   <img src="assets/Kaala_mascot.png" width="200" alt="Kaala Mascot"/>
 </p>
 
-<h1 align="center">🧠 Kaala — Your Disciplined Planner Assistant</h1>
+<h1 align="center"> Kaala — Your Disciplined Planner Assistant</h1>
 
 <p align="center">
   <em>Focused. Grounded. Always on time.</em>
