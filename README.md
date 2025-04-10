@@ -57,7 +57,7 @@ cd kaala
 ### 2. Install Requirements
 
 ```bash
-pip install -r requirements.txt
+uv pip install -r requirements.txt
 ```
 
 ### 3. Set up Google Calendar API
