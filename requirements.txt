@@ -2,3 +2,4 @@ openai
 fastapi
 uvicorn
 pytz
+rich
