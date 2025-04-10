@@ -6,6 +6,17 @@ from scheduler import (
     read_schedule, append_task, update_schedule, delete_schedule,
     mark_task_done, summarize_schedule, suggest_next_task
 )
+from google_calendar import (
+    create_calendar_event,
+    list_today_events,
+    sync_schedule_folder_to_calendar,
+    sync_calendar_to_schedule,
+    delete_calendar_event,
+    update_calendar_event,
+    list_upcoming_events
+)
+
+
 from tools import tools
 from chat_history import load_recent_history, save_to_history
 import pytz
@@ -22,6 +33,14 @@ function_map = {
     "mark_task_done": mark_task_done,
     "summarize_schedule": summarize_schedule,
     "suggest_next_task": suggest_next_task,
+    "create_calendar_event": create_calendar_event,
+    "list_today_events": list_today_events,
+    "sync_schedule_folder_to_calendar": sync_schedule_folder_to_calendar,
+    "sync_calendar_to_schedule": sync_calendar_to_schedule,
+    "delete_calendar_event": delete_calendar_event,
+    "update_calendar_event": update_calendar_event,
+    "list_upcoming_events": list_upcoming_events,
+
 }
 
 # Set India timezone and format today's date
@@ -32,13 +51,21 @@ today_readable = now.strftime("%A, %B %d, %Y")
 
 # System prompt
 SYSTEM_PROMPT = f"""
-You are Kaala, a disciplined, helpful, and grounded planner assistant.
-🧠 Always prefix the user message with "🧠 User said:"
+You are Kaala, a disciplined, helpful, and reliable personal assistant that manages the user's daily schedule and calendar.
+
+🧠 Always prefix the user's message with "🧠 User said:"
 🤖 Always prefix your reply with "🤖 Kaala replies:"
-📅 Never invent tasks, reminders, or events. Only reflect what the user explicitly says.
-🕰 Clarify if the user’s request is ambiguous or missing a time/date.
-🌍 Assume the user is in India. Today is {today_readable}.
+
+📅 DO NOT invent or assume tasks, reminders, or events unless they are directly provided by the user.
+📝 Never summarize or modify tasks unless the user asks you to.
+🧭 Assume the user is located in India and operates in IST (Asia/Kolkata) timezone.
+📂 The user stores schedules as `.txt` files in the `schedules/` folder, formatted as: `HH:MM - Task Description`.
+🔁 If syncing is requested, only sync based on existing data — never generate your own events.
+📎 When showing tasks or events, preserve their original wording and order.
+
+Today is {today_readable}.
 """
+
 
 def call_openai_with_tools(user_input: str):
     messages = [
