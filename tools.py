@@ -1,37 +1,6 @@
-# tools.py
-
 from typing import List
 
 tools = [
-    {
-        "type": "function",
-        "function": {
-            "name": "sync_schedule_folder_to_calendar",
-            "description": "Sync all schedule text files in a folder to Google Calendar.",
-            "parameters": {
-                "type": "object",
-                "properties": {
-                    "folder_path": {"type": "string", "default": "schedules"}
-                }
-            }
-        }
-    },
-
-    {
-        "type": "function",
-        "function": {
-            "name": "sync_calendar_to_schedule",
-            "description": "Export upcoming Google Calendar events into local schedule text files.",
-            "parameters": {
-                "type": "object",
-                "properties": {
-                    "folder_path": {"type": "string", "default": "schedules"}
-                }
-            }
-        }
-    },
-
-
     {
         "type": "function",
         "function": {
@@ -62,140 +31,147 @@ tools = [
     {
         "type": "function",
         "function": {
-            "name": "read_schedule",
-            "description": "Read the schedule for a given date.",
+            "name": "list_upcoming_events",
+            "description": "List upcoming Google Calendar events",
             "parameters": {
                 "type": "object",
                 "properties": {
-                    "date": {"type": "string"}
+                    "n": {
+                        "type": "integer",
+                        "description": "Number of events to retrieve"
+                    }
                 },
-                "required": ["date"]
-            },
-        },
-    },
-    {
-        "type": "function",
-        "function": {
-            "name": "append_task",
-            "description": "Append a new task to the schedule.",
-            "parameters": {
-                "type": "object",
-                "properties": {
-                    "date": {"type": "string"},
-                    "time": {"type": "string"},
-                    "task": {"type": "string"},
-                },
-                "required": ["date", "time", "task"]
+                "required": []
             }
-        },
+        }
     },
     {
         "type": "function",
         "function": {
-            "name": "mark_task_done",
-            "description": "Mark a task as done.",
+            "name": "update_calendar_event",
+            "description": "Update details of a Google Calendar event by ID",
             "parameters": {
                 "type": "object",
                 "properties": {
-                    "date": {"type": "string"},
-                    "task_text": {"type": "string"},
+                    "event_id": {
+                        "type": "string",
+                        "description": "The ID of the event to update"
+                    },
+                    "summary": {
+                        "type": "string",
+                        "description": "Updated event title"
+                    },
+                    "start_time_str": {
+                        "type": "string",
+                        "description": "Updated start time (RFC3339 format)"
+                    },
+                    "end_time_str": {
+                        "type": "string",
+                        "description": "Updated end time (RFC3339 format)"
+                    }
                 },
-                "required": ["date", "task_text"]
-            },
-        },
+                "required": ["event_id"]
+            }
+        }
     },
     {
         "type": "function",
         "function": {
-            "name": "summarize_schedule",
-            "description": "Summarize how many tasks are done vs total.",
+            "name": "delete_calendar_event",
+            "description": "Delete a Google Calendar event by its ID",
             "parameters": {
                 "type": "object",
                 "properties": {
-                    "date": {"type": "string"}
+                    "event_id": {
+                        "type": "string",
+                        "description": "The ID of the event to delete"
+                    }
                 },
-                "required": ["date"]
-            },
-        },
+                "required": ["event_id"]
+            }
+        }
     },
     {
         "type": "function",
         "function": {
-            "name": "suggest_next_task",
-            "description": "Suggest the next undone task.",
+            "name": "delete_all_events_on_date",
+            "description": "Delete all events on a given date from Google Calendar.",
             "parameters": {
                 "type": "object",
                 "properties": {
-                    "date": {"type": "string"}
+                    "date_str": {
+                        "type": "string",
+                        "description": "Date in YYYY-MM-DD format"
+                    }
                 },
-                "required": ["date"]
-            },
-        },
+                "required": ["date_str"]
+            }
+        }
     },
-
     {
-    "type": "function",
-    "function": {
-        "name": "delete_calendar_event",
-        "description": "Delete a Google Calendar event by its ID",
-        "parameters": {
-            "type": "object",
-            "properties": {
-                "event_id": {
-                    "type": "string",
-                    "description": "The ID of the event to delete"
-                }
-            },
-            "required": ["event_id"]
+        "type": "function",
+        "function": {
+            "name": "create_all_day_event",
+            "description": "Create an all-day event on a given date.",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "summary": {"type": "string"},
+                    "date_str": {"type": "string", "description": "Date in YYYY-MM-DD format"},
+                },
+                "required": ["summary", "date_str"]
+            }
+        }
+    },
+    {
+        "type": "function",
+        "function": {
+            "name": "delete_all_upcoming_events",
+            "description": "Delete all upcoming events within the next N days.",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "days": {
+                        "type": "integer",
+                        "default": 30,
+                        "description": "Number of days ahead to delete events"
+                    }
+                },
+                "required": []
+            }
+        }
+    },
+    {
+        "type": "function",
+        "function": {
+            "name": "find_events_by_keyword",
+            "description": "Search upcoming events by keyword.",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "keyword": {"type": "string"}
+                },
+                "required": ["keyword"]
+            }
+        }
+    },
+    {
+        "type": "function",
+        "function": {
+            "name": "export_calendar_to_json",
+            "description": "Export all upcoming events to a JSON file.",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "filepath": {
+                        "type": "string",
+                        "default": "calendar_dump.json",
+                        "description": "Path to save the exported JSON file"
+                    }
+                },
+                "required": []
+            }
         }
     }
-},
-{
-    "type": "function",
-    "function": {
-        "name": "update_calendar_event",
-        "description": "Update details of a Google Calendar event by ID",
-        "parameters": {
-            "type": "object",
-            "properties": {
-                "event_id": {
-                    "type": "string",
-                    "description": "The ID of the event to update"
-                },
-                "summary": {
-                    "type": "string",
-                    "description": "Updated event title"
-                },
-                "start_time_str": {
-                    "type": "string",
-                    "description": "Updated start time (RFC3339 format)"
-                },
-                "end_time_str": {
-                    "type": "string",
-                    "description": "Updated end time (RFC3339 format)"
-                }
-            },
-            "required": ["event_id"]
-        }
-    }
-},
-{
-    "type": "function",
-    "function": {
-        "name": "list_upcoming_events",
-        "description": "List upcoming Google Calendar events",
-        "parameters": {
-            "type": "object",
-            "properties": {
-                "n": {
-                    "type": "integer",
-                    "description": "Number of events to retrieve"
-                }
-            },
-            "required": []
-        }
-    }
-}
-
 ]
 

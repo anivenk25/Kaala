@@ -9,11 +9,14 @@ from scheduler import (
 from google_calendar import (
     create_calendar_event,
     list_today_events,
-    sync_schedule_folder_to_calendar,
-    sync_calendar_to_schedule,
     delete_calendar_event,
     update_calendar_event,
-    list_upcoming_events
+    list_upcoming_events,
+    delete_all_events_on_date,
+    create_all_day_event,
+    delete_all_upcoming_events,
+    find_events_by_keyword,
+    export_calendar_to_json
 )
 
 
@@ -26,21 +29,16 @@ openai.api_key = os.getenv("OPENAI_API_KEY")
 
 # Function dispatch map
 function_map = {
-    "read_schedule": read_schedule,
-    "append_task": append_task,
-    "update_schedule": update_schedule,
-    "delete_schedule": delete_schedule,
-    "mark_task_done": mark_task_done,
-    "summarize_schedule": summarize_schedule,
-    "suggest_next_task": suggest_next_task,
     "create_calendar_event": create_calendar_event,
     "list_today_events": list_today_events,
-    "sync_schedule_folder_to_calendar": sync_schedule_folder_to_calendar,
-    "sync_calendar_to_schedule": sync_calendar_to_schedule,
     "delete_calendar_event": delete_calendar_event,
     "update_calendar_event": update_calendar_event,
     "list_upcoming_events": list_upcoming_events,
-
+    "delete_all_events_on_date": delete_all_events_on_date,
+    "create_all_day_event": create_all_day_event,
+    "delete_all_upcoming_events": delete_all_upcoming_events,
+    "find_events_by_keyword": find_events_by_keyword,
+    "export_calendar_to_json": export_calendar_to_json
 }
 
 # Set India timezone and format today's date
