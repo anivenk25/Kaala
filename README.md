@@ -1,5 +1,14 @@
+<p align="center">
+  <img src="assets/Kaala_mascot.png" width="200" alt="Kaala Mascot"/>
+</p>
 
-# 🧠 Kaala — Your Disciplined Planner Assistant
+<h1 align="center">🧠 Kaala — Your Disciplined Planner Assistant</h1>
+
+<p align="center">
+  <em>Focused. Grounded. Always on time.</em>
+</p>
+
+# Kaala — Your Disciplined Planner Assistant
 
 Kaala is a minimalist, no-nonsense personal planner assistant powered by OpenAI. It integrates local text-based schedules and Google Calendar to help you stay focused, organized, and grounded — no fluff, no hallucinations.
 
