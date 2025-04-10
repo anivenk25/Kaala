@@ -115,6 +115,4 @@ Created with ❤️ by [Anirudh Venkateswaran](https://github.com/anivenk25)
 Made for those who value clarity, structure, and calm control.
 
 
----
 
-Let me know if you want badges, screenshots, or a GIF demo added!
