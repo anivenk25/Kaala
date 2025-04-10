@@ -72,6 +72,9 @@ def call_openai_with_tools(user_input: str):
         {"role": "user", "content": user_input}
     ]
 
+    # Save user's message
+    save_to_history("user", user_input)
+
     # First OpenAI call
     response = openai.chat.completions.create(
         model="gpt-4-1106-preview",
@@ -114,6 +117,9 @@ def call_openai_with_tools(user_input: str):
     else:
         # No tool calls needed, use direct response
         assistant_reply = response_message.content
+
+    # Save assistant's reply
+    save_to_history("assistant", assistant_reply.strip())
 
     return assistant_reply
 
