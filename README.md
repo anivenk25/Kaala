@@ -111,7 +111,7 @@ Pull requests are welcome. If you want to add new calendar integrations, memory 
 
 ## 🧘‍♂️ Built for Grounded Productivity
 
-Created with ❤️ by [Anirudh Venkateswaran](https://github.com/anirudhvenk)  
+Created with ❤️ by [Anirudh Venkateswaran](https://github.com/anivenk25)  
 Made for those who value clarity, structure, and calm control.
 
 
