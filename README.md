@@ -62,17 +62,35 @@ uv pip install -r requirements.txt
 
 ### 3. Set up Google Calendar API
 
-- Visit https://console.developers.google.com/
-- Enable the **Google Calendar API**
-- Download your `client_secret.json` and place it where needed
-- Run Kaala once to trigger authentication (token will be saved as `token.pkl`)
+1. Visit [https://console.developers.google.com/](https://console.developers.google.com/)
+2. Create a new project (or select an existing one).
+3. Go to **APIs & Services > Library**.
+4. Search for and enable the **Google Calendar API**.
+5. Go to **APIs & Services > Credentials**.
+6. Click **Create Credentials > OAuth client ID**.
+    - Application type: **Desktop App**
+    - Name: anything (e.g., "Kaala Calendar Integration")
+7. Download the `client_secret.json` file.
+8. Move it to a convenient location and optionally rename it (e.g., `~/client_secret.json`).
+9. Set an environment variable pointing to it (see below).
+10. Run Kaala once to trigger the authentication flow — a browser will open and ask you to log in.
+    - The token will be saved as `token.pkl` for future use.
+
+---
 
 ### 4. Environment Variables
 
-Set your OpenAI key:
+Set the required environment variables in your shell config (`~/.zshrc`, `~/.bashrc`, etc.):
 
 ```bash
-export OPENAI_API_KEY=your-openai-key
+export OPENAI_API_KEY="your-openai-key"
+export GOOGLE_CALENDAR_SECRET_PATH="$HOME/client_secret.json"
+```
+
+Then reload your shell:
+
+```bash
+source ~/.zshrc  # or ~/.bashrc
 ```
 
 ---
