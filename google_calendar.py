@@ -10,6 +10,7 @@ from googleapiclient.discovery import build
 import json
 from datetime import datetime, timedelta
 
+CLIENT_SECRET_FILE = os.getenv("GOOGLE_CALENDAR_SECRET_PATH")
 SCOPES = ["https://www.googleapis.com/auth/calendar"]
 
 def get_calendar_service():
@@ -21,7 +22,7 @@ def get_calendar_service():
         if creds and creds.expired and creds.refresh_token:
             creds.refresh(Request())
         else:
-            flow = InstalledAppFlow.from_client_secrets_file("/home/anirudh/Downloads/client_secret_588929118930-eooqs8v8ekkvnimavkirbgai0jsp5o71.apps.googleusercontent.com(1).json", SCOPES)
+            flow = InstalledAppFlow.from_client_secrets_file(CLIENT_SECRET_FILE, SCOPES)
             creds = flow.run_local_server(port=0)
         with open("token.pkl", "wb") as token:
             pickle.dump(creds, token)
