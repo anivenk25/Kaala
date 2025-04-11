@@ -28,33 +28,49 @@ def show_logo_and_intro():
     else:
         console.print("[bold red]⚠ Kaala logo not found at expected path.[/bold red]\n")'''
 
-    # Simulate side-by-side by printing text right after image render
+    instructions = (
+        "[bold white]How to use Kaala:[/bold white]\n"
+        "- Type your task, plan, or question below.\n"
+        "- Multiline input is supported. Type [bold yellow]///[/bold yellow] on a new line to finish.\n"
+        "- Type [bold red]exit[/bold red] or [bold red]quit[/bold red] anytime to stop.\n"
+    )
+
+
     text_panel = Panel(
         f"[bold green]{quote}[/bold green]\n\n"
-        f"[bold white]Type your task or question below.[/bold white]\n"
-        f"Type [bold red]exit[/bold red] or [bold red]quit[/bold red] to stop.",
+        f"{instructions}",
         title="Kaala - Disciplined Planner",
         style="bold white",
         box=box.ROUNDED,
         padding=(1, 4)
     )
-    console.print(text_panel, justify="left")
+    console.print("\n")  # spacing for centering
+    console.print(text_panel, justify="center")
 
 
 def main():
     show_logo_and_intro()
     while True:
         try:
-            user_input = Prompt.ask("[bold green]🧠 Kaala[/bold green]")
-            if user_input.strip().lower() in ["exit", "quit"]:
+            console.print("[bold green]🧠 Kaala[/bold green] (type [italic]///[/italic] on a new line to finish):")
+            lines = []
+            while True:
+                line = input()
+                if line.strip() == "///":
+                    break
+                lines.append(line)
+            user_input = "\n".join(lines).strip()
+
+            if user_input.lower() in ["exit", "quit"]:
                 console.print("\n[bold cyan]👋 See you later! Kaala signing off.[/bold cyan]")
                 break
+
+            if not user_input:
+                continue
+
             console.print("[bold yellow]🤖 Thinking...[/bold yellow]")
             response = call_openai_with_tools(user_input)
             console.print(f"\n[bold magenta]Kaala >[/bold magenta] {response}\n")
         except KeyboardInterrupt:
             console.print("\n[bold red]⚠ Interrupted. Use 'exit' or 'quit' to leave Kaala safely.[/bold red]\n")
-
-if __name__ == "__main__":
-    main()
 
