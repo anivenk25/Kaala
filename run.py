@@ -21,12 +21,13 @@ QUOTES = [
 def show_logo_and_intro():
     os.system('clear' if os.name == 'posix' else 'cls')
     quote = random.choice(QUOTES)
-    '''image_path = "/home/anirudh/Kaala/assets/Kaala_mascot_d.png"
 
-    if os.path.exists(image_path):
-        os.system(f"viu -w 20 {image_path}")
-    else:
-        console.print("[bold red]⚠ Kaala logo not found at expected path.[/bold red]\n")'''
+    # Optional image display (commented out)
+    # image_path = "/home/anirudh/Kaala/assets/Kaala_mascot_d.png"
+    # if os.path.exists(image_path):
+    #     os.system(f"viu -w 20 {image_path}")
+    # else:
+    #     console.print("[bold red]⚠ Kaala logo not found at expected path.[/bold red]\n")
 
     instructions = (
         "[bold white]How to use Kaala:[/bold white]\n"
@@ -35,18 +36,16 @@ def show_logo_and_intro():
         "- Type [bold red]exit[/bold red] or [bold red]quit[/bold red] anytime to stop.\n"
     )
 
-
     text_panel = Panel(
-        f"[bold green]{quote}[/bold green]\n\n"
-        f"{instructions}",
+        f"[bold green]{quote}[/bold green]\n\n{instructions}",
         title="Kaala - Disciplined Planner",
         style="bold white",
         box=box.ROUNDED,
         padding=(1, 4)
     )
-    console.print("\n")  # spacing for centering
-    console.print(text_panel, justify="center")
 
+    console.print("\n" * 2)  # Vertical spacing to center it nicely
+    console.print(text_panel, justify="center")
 
 def main():
     show_logo_and_intro()
@@ -73,4 +72,7 @@ def main():
             console.print(f"\n[bold magenta]Kaala >[/bold magenta] {response}\n")
         except KeyboardInterrupt:
             console.print("\n[bold red]⚠ Interrupted. Use 'exit' or 'quit' to leave Kaala safely.[/bold red]\n")
+
+if __name__ == "__main__":
+    main()
 
