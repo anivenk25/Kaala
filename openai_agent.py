@@ -19,7 +19,7 @@ from google_calendar import (
     export_calendar_to_json
 )
 
-
+from search_net import search_internet
 from tools import tools
 from chat_history import load_recent_history, save_to_history
 import pytz
@@ -38,7 +38,8 @@ function_map = {
     "create_all_day_event": create_all_day_event,
     "delete_all_upcoming_events": delete_all_upcoming_events,
     "find_events_by_keyword": find_events_by_keyword,
-    "export_calendar_to_json": export_calendar_to_json
+    "export_calendar_to_json": export_calendar_to_json,
+    "search_internet": search_internet
 }
 
 # Set India timezone and format today's date

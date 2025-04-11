@@ -28,11 +28,12 @@ def get_calendar_service():
             pickle.dump(creds, token)
     return build("calendar", "v3", credentials=creds)
 
-def create_calendar_event(summary, start_time_str, end_time_str, timezone="Asia/Kolkata"):
+def create_calendar_event(summary, start_time_str, end_time_str, timezone="Asia/Kolkata", description=None):
     service = get_calendar_service()
 
     event = {
         "summary": summary,
+        "description": description,
         "start": {
             "dateTime": start_time_str,
             "timeZone": timezone,
@@ -158,13 +159,15 @@ def delete_calendar_event(event_id):
     except Exception as e:
         return f"❌ Failed to delete event: {str(e)}"
 
-def update_calendar_event(event_id, summary=None, start_time_str=None, end_time_str=None, timezone="Asia/Kolkata"):
+def update_calendar_event(event_id, summary=None, start_time_str=None, end_time_str=None, description=None, timezone="Asia/Kolkata"):
     service = get_calendar_service()
     try:
         event = service.events().get(calendarId="primary", eventId=event_id).execute()
 
         if summary:
             event["summary"] = summary
+        if description:
+            event["description"] = description
         if start_time_str:
             event["start"]["dateTime"] = start_time_str
             event["start"]["timeZone"] = timezone
@@ -219,10 +222,11 @@ def delete_all_events_on_date(date_str, timezone="Asia/Kolkata"):
     return f"🗑️ Deleted {deleted} event(s) on {date_str}"
 
 
-def create_all_day_event(summary, date_str, timezone="Asia/Kolkata"):
+def create_all_day_event(summary, date_str, timezone="Asia/Kolkata", description=None):
     service = get_calendar_service()
     event = {
         "summary": summary,
+        "description": description,
         "start": {"date": date_str, "timeZone": timezone},
         "end": {"date": (datetime.strptime(date_str, "%Y-%m-%d") + timedelta(days=1)).strftime("%Y-%m-%d"), "timeZone": timezone},
     }

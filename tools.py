@@ -1,6 +1,30 @@
+#tools.py 
+
 from typing import List
 
 tools = [
+    {
+        "type": "function",
+        "function": {
+            "name": "search_internet",
+            "description": "Search the internet for the latest information about a topic or query.",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "query": {
+                        "type": "string",
+                        "description": "The search query to find information online."
+                    },
+                    "num_results": {
+                        "type": "integer",
+                        "description": "Number of top search results to retrieve.",
+                        "default": 5
+                    }
+                },
+                "required": ["query"]
+            }
+        }
+    },
     {
         "type": "function",
         "function": {
@@ -12,10 +36,11 @@ tools = [
                     "summary": {"type": "string"},
                     "start_time_str": {"type": "string", "description": "ISO 8601 format"},
                     "end_time_str": {"type": "string", "description": "ISO 8601 format"},
+                    "description": {"type": "string", "description": "Optional description for the event"}
                 },
-                "required": ["summary", "start_time_str", "end_time_str"],
-            },
-        },
+                "required": ["summary", "start_time_str", "end_time_str"]
+            }
+        }
     },
     {
         "type": "function",
@@ -24,9 +49,9 @@ tools = [
             "description": "Lists today's Google Calendar events.",
             "parameters": {
                 "type": "object",
-                "properties": {},
-            },
-        },
+                "properties": {}
+            }
+        }
     },
     {
         "type": "function",
@@ -68,6 +93,10 @@ tools = [
                     "end_time_str": {
                         "type": "string",
                         "description": "Updated end time (RFC3339 format)"
+                    },
+                    "description": {
+                        "type": "string",
+                        "description": "Updated description for the event"
                     }
                 },
                 "required": ["event_id"]
@@ -118,6 +147,7 @@ tools = [
                 "properties": {
                     "summary": {"type": "string"},
                     "date_str": {"type": "string", "description": "Date in YYYY-MM-DD format"},
+                    "description": {"type": "string", "description": "Optional description for the event"}
                 },
                 "required": ["summary", "date_str"]
             }
