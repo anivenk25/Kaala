@@ -1,8 +1,47 @@
 # search_net.py
-from duckduckgo_search import DDGS
+try:
+    from duckduckgo_search import DDGS
+    _DDGS_AVAILABLE = True
+except ImportError:
+    _DDGS_AVAILABLE = False
+    print("[Warning] 'duckduckgo_search' library not found; falling back to manual HTML scraping for text searches.")
 import json
 import requests
 from bs4 import BeautifulSoup
+from urllib.parse import urlparse, parse_qs, unquote
+
+def manual_text_search(query, num_results):
+    """Fallback text search using DuckDuckGo HTML scraping."""
+    search_url = "https://html.duckduckgo.com/html/"
+    params = {"q": query}
+    headers = {"User-Agent": "Mozilla/5.0"}
+    try:
+        resp = requests.get(search_url, params=params, timeout=10, headers=headers)
+        resp.raise_for_status()
+        soup = BeautifulSoup(resp.text, "html.parser")
+        anchors = soup.find_all("a", class_="result__a", href=True)
+        results = []
+        for a in anchors:
+            href = a["href"]
+            if "uddg=" in href:
+                parsed = urlparse(href, scheme="https")
+                qs = parse_qs(parsed.query)
+                uddg = qs.get("uddg")
+                if uddg:
+                    real_url = unquote(uddg[0])
+                else:
+                    continue
+            else:
+                real_url = href
+                if real_url.startswith("//"):
+                    real_url = "https:" + real_url
+            results.append(real_url)
+            if len(results) >= num_results:
+                break
+        return results
+    except Exception as e:
+        print(f"[Manual DDG Search Error] {e}")
+        return []
 
 
 class DuckDuckGoSearchManager:
@@ -13,6 +52,7 @@ class DuckDuckGoSearchManager:
     def __init__(self):
         self.default_results = 3
         self.headers = {"User-Agent": "Mozilla/5.0"}
+        self.use_ddgs = _DDGS_AVAILABLE
 
     def _get_results(self, search_func, *args, num_results=None):
         try:
@@ -24,8 +64,18 @@ class DuckDuckGoSearchManager:
             return []
 
     def text_search(self, query, num_results=None):
-        results = self._get_results(lambda ddgs, **kwargs: ddgs.text(query, **kwargs), num_results=num_results)
-        return [result.get('href') for result in results if 'href' in result]
+        # Determine number of results to fetch
+        max_results = num_results or self.default_results
+        # Attempt DuckDuckGoSearch library if available
+        if getattr(self, "use_ddgs", False):
+            results = self._get_results(
+                lambda ddgs, **kwargs: ddgs.text(query, **kwargs),
+                num_results=max_results
+            )
+            if results:
+                return [res.get("href") for res in results if "href" in res]
+        # Fallback to manual HTML scraping
+        return manual_text_search(query, max_results)
 
     def news_search(self, query, num_results=None):
         results = self._get_results(lambda ddgs, **kwargs: ddgs.news(query, **kwargs), num_results=num_results)

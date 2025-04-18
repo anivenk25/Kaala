@@ -29,3 +29,4 @@ def load_recent_history(limit=10):
             messages.append({"role": "assistant", "content": line[len("assistant:"):].strip()})
     return messages
 
+

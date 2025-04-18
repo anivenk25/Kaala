@@ -3,3 +3,6 @@ fastapi
 uvicorn
 pytz
 rich
+duckduckgo_search
+beautifulsoup4
+requests
