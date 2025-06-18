@@ -177,17 +177,18 @@ def search_internet(query: str, num_results: int = 5) -> list:
             response.raise_for_status()
             soup = BeautifulSoup(response.text, 'html.parser')
 
-            title = soup.title.string.strip() if soup.title and soup.title.string else url
-            desc_tag = soup.find("meta", attrs={"name": "description"}) or soup.find("p")
-            snippet = desc_tag.get("content", "").strip() if desc_tag else ""
+            # Remove script and style elements
+            for tag in soup(["script", "style"]):
+                tag.decompose()
 
-            if not snippet and desc_tag:
-                snippet = desc_tag.get_text(strip=True)
+            # Extract visible text content
+            content = soup.get_text(separator="\n", strip=True)
+            title = soup.title.string.strip() if soup.title and soup.title.string else url
 
             final_results.append({
                 "title": title,
                 "url": url,
-                "snippet": snippet
+                "content": content
             })
 
         except Exception as e:
@@ -195,7 +196,7 @@ def search_internet(query: str, num_results: int = 5) -> list:
             final_results.append({
                 "title": url,
                 "url": url,
-                "snippet": ""
+                "content": ""
             })
 
     return final_results

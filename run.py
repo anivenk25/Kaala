@@ -42,17 +42,26 @@ def show_logo_and_intro():
     console.print("\n" * 2)
     console.print(text_panel, justify="center")
 
-from prompt_toolkit import PromptSession
-
 def get_user_multiline_input():
     console.print("[bold green]🧠 Kaala[/bold green] (Press [bold yellow]Enter[/bold yellow] for newline, [bold yellow]empty line[/bold yellow] to send):")
-    lines = []
-    while True:
-        line = input()
-        if line.strip() == "":
-            break
-        lines.append(line)
-    return "\n".join(lines).strip()
+    bindings = KeyBindings()
+
+    @bindings.add("enter")
+    def _(event):
+        buf = event.app.current_buffer
+        doc = buf.document
+        # If on an empty line at the end, accept the input.
+        if doc.current_line == "" and doc.cursor_position == len(doc.text):
+            event.app.exit(result=buf.text)
+        else:
+            buf.insert_text("\n")
+
+    session = PromptSession(key_bindings=bindings, multiline=True)
+    try:
+        text = session.prompt()
+    except (KeyboardInterrupt, EOFError):
+        return ""
+    return text.strip()
 
 
 
