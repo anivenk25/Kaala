@@ -6,3 +6,4 @@ rich
 duckduckgo_search
 beautifulsoup4
 requests
+googlemaps

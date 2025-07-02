@@ -20,6 +20,17 @@ from google_calendar import (
 )
 
 from search_net import search_internet
+from integrations import (
+    list_emails, send_email,
+    get_travel_time,
+    get_current_weather, get_weather_forecast,
+    convert_timezone,
+    list_events_on_date, find_free_slots,
+    read_todo_list, append_todo_item,
+    mark_todo_item_done, delete_todo_item,
+    schedule_task, schedule_todo_tasks
+)
+from contacts import add_contact, list_contacts, update_contact, delete_contact, find_contact, schedule_call, list_scheduled_calls, delete_scheduled_call, auto_schedule_calls
 from tools import tools
 from chat_history import load_recent_history, save_to_history
 import pytz
@@ -39,7 +50,37 @@ function_map = {
     "delete_all_upcoming_events": delete_all_upcoming_events,
     "find_events_by_keyword": find_events_by_keyword,
     "export_calendar_to_json": export_calendar_to_json,
-    "search_internet": search_internet
+    "search_internet": search_internet,
+    # Email
+    "list_emails": list_emails,
+    "send_email": send_email,
+    # Maps & Travel
+    "get_travel_time": get_travel_time,
+    # Weather
+    "get_current_weather": get_current_weather,
+    "get_weather_forecast": get_weather_forecast,
+    # Timezone
+    "convert_timezone": convert_timezone,
+    # Calendar date-specific
+    "list_events_on_date": list_events_on_date,
+    "find_free_slots": find_free_slots,
+    # To-do list
+    "read_todo_list": read_todo_list,
+    "append_todo_item": append_todo_item,
+    "mark_todo_item_done": mark_todo_item_done,
+    "delete_todo_item": delete_todo_item,
+    # Advanced scheduling
+    "schedule_task": schedule_task,
+    "schedule_todo_tasks": schedule_todo_tasks,
+    "add_contact": add_contact,
+    "list_contacts": list_contacts,
+    "find_contact": find_contact,
+    "update_contact": update_contact,
+    "delete_contact": delete_contact,
+    "schedule_call": schedule_call,
+    "list_scheduled_calls": list_scheduled_calls,
+    "delete_scheduled_call": delete_scheduled_call,
+    "auto_schedule_calls": auto_schedule_calls
 }
 
 # Set India timezone and format today's date

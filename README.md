@@ -44,6 +44,43 @@ Kaala is a minimalist, no-nonsense personal planner assistant powered by OpenAI.
 - `delete_events_by_index(indices, n=5)`
 
 ---
+### 📧 Email Integration
+- `list_emails(folder, limit)`: List recent emails via IMAP.
+- `send_email(to, subject, body)`: Send an email via SMTP.
+
+### 🗺️ Maps & Travel
+- `get_travel_time(origin, destination, mode)`: Estimate travel time using Google Maps.
+
+### 🌤️ Weather
+- `get_current_weather(location)`: Current weather via OpenWeatherMap.
+- `get_weather_forecast(location, date)`: Weather forecast for a specific date.
+
+### ⏰ Timezone Conversion
+- `convert_timezone(time_str, from_tz, to_tz)`: Convert timestamps between time zones.
+
+### 📅 Date-Specific Calendar & Availability
+- `list_events_on_date(date_str)`: List events on a given date.
+- `find_free_slots(date_str, duration)`: Find free slots of at least duration minutes.
+- `schedule_task(description, duration, date_str, earliest_time, latest_time)`: Schedule a task into the next available free slot.
+- `schedule_todo_tasks(date_str, default_duration)`: Auto-schedule all undone to-do items on that date.
+
+### ✅ To-Do List Syncing
+- `read_todo_list()`: Read the local to-do list.
+- `append_todo_item(task)`: Add an item to your to-do.
+- `mark_todo_item_done(task_text)`: Mark a to-do item done.
+ - `delete_todo_item(task_text)`: Delete an item from your to-do list.
+  
+### 📇 Contacts & Connections
+- `add_contact(name, email, phone, notes)`: Add a new contact to your contacts list.
+- `list_contacts()`: List all saved contacts.
+- `find_contact(query)`: Search for contacts by name, email, phone, or notes.
+- `update_contact(contact_id, name, email, phone, notes)`: Update details of an existing contact.
+- `delete_contact(contact_id)`: Delete a contact from your list.
+- `schedule_call(contact_id, date_str, time_str, duration, notes)`: Schedule a call with a contact on Google Calendar.
+- `list_scheduled_calls()`: List all your scheduled calls.
+- `delete_scheduled_call(call_id)`: Delete a scheduled call by its ID.
+- `auto_schedule_calls(start_date_str, end_date_str, time_str, duration, notes, timezone)`: Auto-schedule calls for contacts with defined frequency between start and end dates.
+---
 
 ## 🔧 Setup Instructions
 
@@ -57,8 +94,9 @@ cd kaala
 ### 2. Install Requirements
 
 ```bash
-uv pip install -r requirements.txt
+pip install -r requirements.txt
 ```
+Note: we now include `googlemaps` for Maps integration.
 
 ### 3. Set up Google Calendar API
 
@@ -85,6 +123,14 @@ Set the required environment variables in your shell config (`~/.zshrc`, `~/.bas
 ```bash
 export OPENAI_API_KEY="your-openai-key"
 export GOOGLE_CALENDAR_SECRET_PATH="$HOME/client_secret.json"
+export IMAP_HOST="imap.example.com"
+export IMAP_PORT=993
+export SMTP_HOST="smtp.example.com"
+export SMTP_PORT=587
+export EMAIL_USER="you@example.com"
+export EMAIL_PASS="app-specific-password"
+export GOOGLE_MAPS_API_KEY="your-google-maps-key"
+export OWM_API_KEY="your-openweathermap-key"
 ```
 
 Then reload your shell:

@@ -14,19 +14,32 @@ def save_to_history(role: str, message: str):
         f.write(f"{role}: {message.strip()}\n")
 
 def load_recent_history(limit=10):
-    path = get_today_file()
-    if not os.path.exists(path):
-        return []
-
-    with open(path, "r") as f:
-        lines = f.readlines()[-limit * 2:]  # Each interaction is 2 lines: user + assistant
+    """
+    Load up to the last `limit` user-assistant exchanges from all history files.
+    Returns a list of message dicts formatted for OpenAI: {'role': ..., 'content': ...}.
+    """
+    # Collect lines from all history files in chronological order
+    files = sorted(os.listdir(HISTORY_DIR))
+    all_lines = []
+    for filename in files:
+        if not filename.endswith('.txt'):
+            continue
+        path = os.path.join(HISTORY_DIR, filename)
+        try:
+            with open(path, 'r') as f:
+                all_lines.extend(f.readlines())
+        except OSError:
+            continue
+    # Take the last limit * 2 lines (each exchange has user + assistant)
+    lines = all_lines[-(limit * 2):] if all_lines else []
 
     messages = []
     for line in lines:
-        if line.startswith("user:"):
-            messages.append({"role": "user", "content": line[len("user:"):].strip()})
-        elif line.startswith("assistant:"):
-            messages.append({"role": "assistant", "content": line[len("assistant:"):].strip()})
+        # Expect lines of form 'user: ...' or 'assistant: ...'
+        if line.startswith('user:'):
+            messages.append({'role': 'user', 'content': line[len('user:'):].strip()})
+        elif line.startswith('assistant:'):
+            messages.append({'role': 'assistant', 'content': line[len('assistant:'):].strip()})
     return messages
 
 
