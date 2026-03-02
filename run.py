@@ -1,6 +1,6 @@
 import os
 import random
-from openai_agent import call_openai_with_tools
+from agent import call_agent
 from rich.console import Console
 from rich.panel import Panel
 from rich import box
@@ -24,7 +24,7 @@ def show_logo_and_intro():
     quote = random.choice(QUOTES)
 
     instructions = (
-        "[bold white]How to use Kaala:[/bold white]\n"
+        "[bold white]How to use Joule:[/bold white]\n"
         "- Type your task, plan, or question below.\n"
         "- Press [bold yellow]Enter[/bold yellow] for newline\n"
         "- Press [bold yellow]empty line[/bold yellow] to send\n"
@@ -33,7 +33,7 @@ def show_logo_and_intro():
 
     text_panel = Panel(
         f"[bold green]{quote}[/bold green]\n\n{instructions}",
-        title="Kaala - Disciplined Planner",
+        title="SAP Joule - AI Copilot",
         style="bold white",
         box=box.ROUNDED,
         padding=(1, 4)
@@ -43,7 +43,7 @@ def show_logo_and_intro():
     console.print(text_panel, justify="center")
 
 def get_user_multiline_input():
-    console.print("[bold green]🧠 Kaala[/bold green] (Press [bold yellow]Enter[/bold yellow] for newline, [bold yellow]empty line[/bold yellow] to send):")
+    console.print("[bold green]🧠 Joule[/bold green] (Press [bold yellow]Enter[/bold yellow] for newline, [bold yellow]empty line[/bold yellow] to send):")
     bindings = KeyBindings()
 
     @bindings.add("enter")
@@ -72,18 +72,18 @@ def main():
             user_input = get_user_multiline_input()
 
             if user_input.lower() in ["exit", "quit"]:
-                console.print("\n[bold cyan]👋 See you later! Kaala signing off.[/bold cyan]")
+                console.print("\n[bold cyan]👋 See you later! Joule signing off.[/bold cyan]")
                 break
 
             if not user_input:
                 continue
 
-            console.print("[bold yellow]🤖 Thinking...[/bold yellow]")
-            response = call_openai_with_tools(user_input)
-            console.print(f"\n[bold magenta]Kaala >[/bold magenta] {response}\n")
+            console.print("[bold yellow]🤖 Joule Thinking (SAP BAF Mode)...[/bold yellow]")
+            response = call_agent(user_input)
+            console.print(f"\n[bold magenta]Joule >[/bold magenta] {response}\n")
 
         except KeyboardInterrupt:
-            console.print("\n[bold red]⚠ Interrupted. Use 'exit' or 'quit' to leave Kaala safely.[/bold red]\n")
+            console.print("\n[bold red]⚠ Interrupted. Use 'exit' or 'quit' to leave Joule safely.[/bold red]\n")
 
 
 
